@@ -1,8 +1,8 @@
 import React, { useState } from "react"
-import { StatusBar } from "expo-status-bar"
-import { StyleSheet, Text, View } from "react-native"
 import * as Font from "expo-font"
 import AppLoading from "expo-app-loading"
+import Home from "./components/home"
+import Onboard from "./components/onboard"
 
 const fetchFonts = () => {
   return Font.loadAsync({
@@ -14,6 +14,12 @@ const fetchFonts = () => {
 
 export default function App() {
   const [dataLoaded, setDataLoaded] = useState(false)
+  const [showOnboard, setShowOnboard] = useState(true)
+
+  const handleDone = () => {
+    setShowOnboard(false)
+  }
+
   if (!dataLoaded) {
     return (
       <AppLoading
@@ -23,21 +29,5 @@ export default function App() {
       />
     )
   }
-  return (
-    <View style={styles.container}>
-      <Text style={{ fontFamily: "OpenSans-Bold" }}>
-        Open up App.tsx to start working on your app!
-      </Text>
-      <StatusBar style="auto" />
-    </View>
-  )
+  return showOnboard ? <Onboard handleDone={handleDone} /> : <Home />
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-})
